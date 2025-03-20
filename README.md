@@ -1,10 +1,10 @@
 # mistocr
 
-A command-line tool for OCR using the Mistral AI API, converting PDFs and PowerPoint files to markdown or text.
+A command-line tool for OCR using the Mistral AI API, converting PDFs and PowerPoint files to markdown, text, or searchable PDFs.
 
 ## Installation
 
-### Install with `uv` (Recommended)
+### Global Installation (Recommended)
 
 [uv](https://github.com/astral-sh/uv) is a fast Python package installer and resolver. If you don't have uv installed, you can install it with:
 
@@ -20,11 +20,28 @@ Then install mistocr globally:
 git clone https://github.com/username/mistocr.git
 cd mistocr
 
-# Install mistocr globally with uv
-uv pip install --system .
+# Install globally using uv tool
+uv tool install -e .
 ```
 
-This will install the `mistocr` command globally on your system, making it available in your PATH so you can run it from anywhere.
+This will install `mistocr` globally, making it available from any directory without needing to activate a virtual environment.
+
+### Development Installation
+
+If you're developing mistocr or want to install it in a virtual environment:
+
+```bash
+# Clone the repository
+git clone https://github.com/username/mistocr.git
+cd mistocr
+
+# Create and activate virtual environment
+uv venv
+source .venv/bin/activate
+
+# Install in development mode
+uv pip install -e .
+```
 
 ### Verify Installation
 
@@ -40,21 +57,42 @@ which mistocr
 
 ### Alternative Installation Methods
 
-If you don't want to use uv, you can install with standard pip:
+If you don't want to clone the repository, you can install directly from GitHub:
 
 ```bash
-pip install .
+uv tool install git+https://github.com/username/mistocr.git
 ```
 
-Or directly from GitHub:
+Or with pip (not recommended):
 
 ```bash
-pip install git+https://github.com/username/mistocr.git
+pip install --user git+https://github.com/username/mistocr.git
+```
+
+### Updating the Installation
+
+If you installed from a cloned repository, you can update to the latest version with:
+
+```bash
+# Navigate to the repository directory
+cd mistocr
+
+# Pull the latest changes
+git pull
+
+# Reinstall the tool
+uv tool install -e .
+```
+
+If you installed directly from GitHub, you can update to the latest version with:
+
+```bash
+uv tool install --upgrade git+https://github.com/username/mistocr.git
 ```
 
 ## Requirements
 
-- Python 3.7+
+- Python 3.10+
 - Mistral AI API key (sign up at https://console.mistral.ai/)
 
 ## API Key Setup
@@ -96,7 +134,7 @@ Options:
   --version                       Show the version and exit.
   -o, --output PATH               Output file path. If not specified, output
                                   will be printed to stdout.
-  -f, --format [markdown|text]    Output format (default: markdown)
+  -f, --format [markdown|text|pdf]  Output format (default: markdown)
   --pages TEXT                    Pages to process (e.g., "0,1,3-5"). Starts
                                   from 0.
   --images / --no-images          Include images in output (default: yes)
@@ -111,6 +149,18 @@ Process a PDF file and save the output as markdown:
 
 ```bash
 mistocr document.pdf -o output.md
+```
+
+Process a PDF file and create a searchable PDF:
+
+```bash
+mistocr document.pdf -o output.pdf
+```
+
+You can also specify the PDF format explicitly:
+
+```bash
+mistocr document.pdf -f pdf -o output.pdf
 ```
 
 Process only specific pages:
