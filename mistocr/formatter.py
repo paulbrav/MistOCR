@@ -8,7 +8,7 @@ import os
 import base64
 import io
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Dict, Any, Optional
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image as RLImage
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -55,7 +55,6 @@ def format_as_markdown(
         if include_images and "images" in page and page["images"]:
             images = page["images"]
             for i, image in enumerate(images):
-                image_id = image.get("id", f"image_{i}")
                 
                 if output_dir and "image_base64" in image:
                     # Save image to file
