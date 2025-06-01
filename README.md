@@ -181,6 +181,15 @@ Output plain text instead of markdown:
 mistocr document.pdf -f text -o output.txt
 ```
 
+## Running Tests
+
+The test suite uses `pytest`. After installing the project dependencies,
+execute the tests from the repository root:
+
+```bash
+pytest
+```
+
 ## License
 
-MIT License 
+MIT License
