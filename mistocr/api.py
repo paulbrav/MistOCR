@@ -5,10 +5,8 @@ Handles communication with the Mistral AI OCR API.
 """
 
 import os
-import base64
 import requests
-from pathlib import Path
-from typing import Dict, List, Optional, Any, Union
+from typing import Dict, List, Optional, Any
 
 
 MISTRAL_API_URL = "https://api.mistral.ai/v1/ocr"
