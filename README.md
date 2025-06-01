@@ -183,4 +183,5 @@ mistocr document.pdf -f text -o output.txt
 
 ## License
 
-MIT License 
+This project is licensed under the [MIT License](LICENSE).
+
