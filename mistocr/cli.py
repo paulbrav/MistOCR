@@ -16,30 +16,69 @@ from mistocr.formatter import format_as_markdown, format_as_text, format_as_pdf
 
 
 def parse_pages(pages_str: Optional[str]) -> Optional[List[int]]:
-    """
-    Parse pages string into a list of page indices.
-    
-    Accepts formats like: "0,1,2", "0-5", "0,2-5,7"
-    
-    Args:
-        pages_str: String representation of pages
-        
-    Returns:
-        List of page indices or None if all pages
+    """Convert a page specification string into a list of indices.
+
+    Accepted formats are comma separated page numbers or ranges.  Examples::
+
+        "0"
+        "0,1,2"
+        "0-3"
+        "0,2-5,7"
+
+    Whitespace surrounding numbers or the dash is ignored.  Ranges must be
+    specified with the start value less than or equal to the end value.  A
+    value of ``None`` means all pages will be processed.
+
+    Parameters
+    ----------
+    pages_str: Optional[str]
+        String representation of pages provided by the user.
+
+    Returns
+    -------
+    Optional[List[int]]
+        Parsed list of zero-based page indices or ``None`` if ``pages_str`` is
+        falsy.
+
+    Raises
+    ------
+    click.BadParameter
+        If the string cannot be parsed or contains invalid ranges.
     """
     if not pages_str:
         return None
-    
-    pages = []
-    parts = pages_str.split(',')
-    
-    for part in parts:
+
+    pages: List[int] = []
+    for part in pages_str.split(','):
+        part = part.strip()
+        if not part:
+            raise click.BadParameter("Empty page specification")
+
         if '-' in part:
-            start, end = part.split('-')
-            pages.extend(range(int(start), int(end) + 1))
+            start_str, end_str = [p.strip() for p in part.split('-', 1)]
+            if not start_str or not end_str:
+                raise click.BadParameter(f"Invalid page range: '{part}'")
+            try:
+                start = int(start_str)
+                end = int(end_str)
+            except ValueError as exc:
+                raise click.BadParameter(
+                    f"Non-integer page range: '{part}'"
+                ) from exc
+
+            if end < start:
+                raise click.BadParameter(
+                    f"Invalid page range (end < start): '{part}'"
+                )
+            pages.extend(range(start, end + 1))
         else:
-            pages.append(int(part))
-    
+            try:
+                pages.append(int(part))
+            except ValueError as exc:
+                raise click.BadParameter(
+                    f"Invalid page number: '{part}'"
+                ) from exc
+
     return pages
 
 
@@ -170,4 +209,4 @@ def main(
 
 
 if __name__ == '__main__':
-    main() 
+    main()
