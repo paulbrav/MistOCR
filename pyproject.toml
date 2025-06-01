@@ -32,3 +32,9 @@ mistocr = "mistocr.cli:main"
 [project.urls]
 "Homepage" = "https://github.com/username/mistocr"
 "Bug Tracker" = "https://github.com/username/mistocr/issues" 
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.format]
+quote-style = "preserve"
+

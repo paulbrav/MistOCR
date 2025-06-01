@@ -2,7 +2,6 @@
 Command line interface for mistocr.
 """
 
-import os
 import sys
 import click
 from pathlib import Path
