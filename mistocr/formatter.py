@@ -14,7 +14,6 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image as RL
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.lib import colors
-from PIL import Image
 
 
 def format_as_markdown(
@@ -156,7 +155,6 @@ def format_as_pdf(
     
     # Define styles
     styles = getSampleStyleSheet()
-    title_style = styles['Heading1']
     normal_style = styles['Normal']
     
     # Create a custom style for page headers
